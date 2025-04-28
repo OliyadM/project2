@@ -34,3 +34,15 @@ jobs:
       # Run tests
       - name: Run tests
         run: go test ./... -v
+
+      # Build Docker image
+      - name: Build Docker image
+        run: |
+          docker build -t afro-vintage-backend:latest .
+
+      # Optionally push Docker image to registry (e.g., DockerHub, GitHub Container Registry)
+      # Uncomment the next lines if you want to push the image to a registry
+      # - name: Push Docker image to registry
+      #   run: |
+      #     docker tag afro-vintage-backend:latest your-docker-repo/afro-vintage-backend:latest
+      #     docker push your-docker-repo/afro-vintage-backend:latest
