@@ -1,0 +1,48 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - afro-vintage-backend/**
+  pull_request:
+    branches:
+      - main
+    paths:
+      - afro-vintage-backend/**
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Go
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.20'
+
+      # Install dependencies
+      - name: Install dependencies
+        run: go mod tidy
+
+      # Run tests
+      - name: Run tests
+        run: go test ./... -v
+
+      # Build Docker image
+      - name: Build Docker image
+        run: |
+          docker build -t afro-vintage-backend:latest .
+
+      # Optionally push Docker image to registry (e.g., DockerHub, GitHub Container Registry)
+      # Uncomment the next lines if you want to push the image to a registry
+      # - name: Push Docker image to registry
+      #   run: |
+      #     docker tag afro-vintage-backend:latest your-docker-repo/afro-vintage-backend:latest
+      #     docker push your-docker-repo/afro-vintage-backend:latest
